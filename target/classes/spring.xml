@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan
+		base-package="com.xworkz.appzone" />
+
+
+	<bean id="driverManagerDatasource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+		<property name="driverClassName"
+			value="${datasource.driverClassName}" />
+		<property name="url"
+			value="${datasource.url}" />
+	</bean>
+	
+	<context:property-placeholder location="classpath:db.properties"/>
+
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+
+	<bean id="javaMailSenderImpl"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="host" value="${mail.host}" />
+		<property name="port" value="${mail.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.outh">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="LocalSessionFactoryBean"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="driverManagerDatasource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.xworkz.appzone.entity.login.LoginEntity</value>
+				<value>com.xworkz.appzone.entity.menu.GroupEntity</value>
+				<value>com.xworkz.appzone.entity.addapp.AddappEntity</value>
+				<value>com.xworkz.appzone.entity.addapp.AddappDetailsEntity</value>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
